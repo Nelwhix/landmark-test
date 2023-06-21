@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\Rules;
@@ -26,7 +27,7 @@ class UserController extends Controller
       return response([
           'message' => "signup success",
           'user' => $user
-      ]);
+      ], Response::HTTP_CREATED);
     }
 
     public function login(Request $request) {
@@ -40,7 +41,7 @@ class UserController extends Controller
         if (!$user || !Hash::check($request->password, $user->password)) {
             return response([
                 'message' => 'User not Found'
-            ], 404);
+            ], Response::HTTP_NOT_FOUND);
         }
 
         $token = $user->createToken('access_token')->plainTextToken;
