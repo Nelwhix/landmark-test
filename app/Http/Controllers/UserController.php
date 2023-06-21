@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\Rules;
 
@@ -43,6 +44,8 @@ class UserController extends Controller
         }
 
         $token = $user->createToken('access_token')->plainTextToken;
+
+        Auth::login($user);
 
         return response([
             'message' => 'successful',

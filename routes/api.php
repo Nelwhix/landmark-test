@@ -15,7 +15,7 @@ Route::controller(UserController::class)->group(function () {
 });
 
 Route::controller(ProductController::class)->group(function () {
-    Route::post('/product', 'store');
+    Route::post('/product', 'store')->middleware('auth:sanctum');
     Route::get('/product', 'index');
 });
 

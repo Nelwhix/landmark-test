@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Product;
 use Illuminate\Http\Request;
+use Illuminate\Http\Response;
 
 class ProductController extends Controller
 {
@@ -11,7 +13,10 @@ class ProductController extends Controller
      */
     public function index()
     {
-        //
+        return response([
+            'message' => 'success',
+            'products' => Product::all()
+        ]);
     }
 
     /**
@@ -19,7 +24,22 @@ class ProductController extends Controller
      */
     public function store(Request $request)
     {
-        dd($request);
+        $request->validate([
+            'name' => 'required|string',
+            'slug' => 'required|string',
+            'price' => 'required|numeric'
+        ]);
+
+        $product = Product::create([
+           'name' => $request->name,
+           'slug' => $request->slug,
+           'price' => $request->price,
+        ]);
+
+        return response([
+            'message' => 'product added successfully',
+            'product' => $product
+        ], Response::HTTP_CREATED);
     }
 
     /**
